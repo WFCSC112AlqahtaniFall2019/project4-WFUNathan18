@@ -15,11 +15,11 @@ int main() {
 
     // FINISH ME
     while (playAgain == 'y') {
-        cout << "Would you like to play a one-player game against me or a two-player game with a friend/enemy? (input 1 or 2) ";
+        cout << "Would you like to play a one-player game against me or a two-player game with a friend/enemy? (input 1 or 2) " << endl;
         cin >> playerNum;
 
         if (playerNum == 1) { // Message for one-player game
-            cout << "Very well, you'll be Player 1 and the computer will be Player 2" << endl;
+            cout << endl << "Very well, you'll be Player 1 and the computer will be Player 2" << endl;
         }
 
         TicTacToe().initializeBoard();
@@ -29,13 +29,13 @@ int main() {
                 TicTacToe().printBoard();
 
                 cout << "Player " << TicTacToe().getCurrentPlayerNumber() << "'s turn" << endl;
-                if (TicTacToe().getCurrentPlayerNumber() == 1) {
-                    cout << "Please input the coordinates of where you would like to place the mark ";
+                if (TicTacToe().getCurrentPlayerNumber() == 1) { // Player's Turn
+                    cout << "Please input the coordinates of where you would like to place the mark " << endl;
                     cin >> inputRow >> inputCol;
                     TicTacToe().placeMark(inputRow, inputCol);
                 }
 
-                else if (TicTacToe().getCurrentPlayerNumber() == 2) {
+                else if (TicTacToe().getCurrentPlayerNumber() == 2) { // Computer's Turn
                     srand(time(0));
                     inputRow = ((rand() % 3) + 1);
                     inputCol = ((rand() % 3) + 1);
@@ -47,7 +47,16 @@ int main() {
         }
 
         else if (playerNum == 2) { // For two-player game
+            while (!TicTacToe().checkForWin() && !TicTacToe().isBoardFull()) {
+                TicTacToe().printBoard();
 
+                cout << "Player " << TicTacToe().getCurrentPlayerNumber() << "'s turn" << endl;
+                cout << "Please input the coordinates of where you would like to place the mark " << endl;
+                cin >> inputRow >> inputCol;
+                TicTacToe().placeMark(inputRow, inputCol);
+
+                TicTacToe().changePlayer(); // Change Turn
+            }
         }
 
         if (TicTacToe().isBoardFull()) {
