@@ -34,6 +34,8 @@ int main() {
                 if (board.getCurrentPlayerNumber() == 1) { // Player's Turn
                     cout << "Please input the coordinates of where you would like to place the mark " << endl;
                     cin >> inputRow >> inputCol;
+                    inputRow = inputRow--; // Subtract 1 from coordinates to account for array logic
+                    inputCol = inputCol--;
                     board.placeMark(inputRow, inputCol);
                 }
 
@@ -66,6 +68,8 @@ int main() {
                 cout << "Player " << board.getCurrentPlayerNumber() << "'s turn" << endl;
                 cout << "Please input the coordinates of where you would like to place the mark " << endl;
                 cin >> inputRow >> inputCol;
+                inputRow = inputRow--; // Subtract 1 from coordinates to account for array logic
+                inputCol = inputCol--;
                 board.placeMark(inputRow, inputCol);
 
                 if (board.checkForWin()) { // If a player wins
