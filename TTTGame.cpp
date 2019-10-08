@@ -1,5 +1,5 @@
 /* Class: TicTacToe
- * Author: [FINISH ME]
+ * Author: Nathan Maynard
  * Description: A program that implements the game Tic-Tac-Toe
  */
 
@@ -9,6 +9,7 @@
 using namespace std;
 
 int main() {
+    TicTacToe board;
     int playerNum;
     int inputRow, inputCol;
     char playAgain = 'y';
@@ -22,48 +23,73 @@ int main() {
             cout << endl << "Very well, you'll be Player 1 and the computer will be Player 2" << endl;
         }
 
-        TicTacToe().initializeBoard();
+        board.initializeBoard();
+
 
         if (playerNum == 1) { // For one-player game against computer using randomly generated numbers
-            while (!TicTacToe().checkForWin() && !TicTacToe().isBoardFull()) {
-                TicTacToe().printBoard();
+            while (!board.checkForWin() && !board.isBoardFull()) {
+                board.printBoard();
 
-                cout << "Player " << TicTacToe().getCurrentPlayerNumber() << "'s turn" << endl;
-                if (TicTacToe().getCurrentPlayerNumber() == 1) { // Player's Turn
+                cout << "Player " << board.getCurrentPlayerNumber() << "'s turn" << endl;
+                if (board.getCurrentPlayerNumber() == 1) { // Player's Turn
                     cout << "Please input the coordinates of where you would like to place the mark " << endl;
                     cin >> inputRow >> inputCol;
-                    TicTacToe().placeMark(inputRow, inputCol);
+                    board.placeMark(inputRow, inputCol);
                 }
 
-                else if (TicTacToe().getCurrentPlayerNumber() == 2) { // Computer's Turn
+                else if (board.getCurrentPlayerNumber() == 2) { // Computer's Turn
                     srand(time(0));
-                    inputRow = ((rand() % 3) + 1);
-                    inputCol = ((rand() % 3) + 1);
-                    TicTacToe().placeMark(inputRow, inputCol);
+                    inputRow = (rand() % 3);
+                    inputCol = (rand() % 3);
+                    board.placeMark(inputRow, inputCol);
                 }
 
-                TicTacToe().changePlayer();
+                if (board.checkForWin()) { // Check for win
+                    cout << "Player " << board.getCurrentPlayerNumber() << " wins!" << endl;
+                    cout << "Play again? (y/n)" << endl;
+                    cin >> playAgain;
+                }
+
+                board.changePlayer(); // Change Turn
+
+                if (board.checkForWin() && (board.getCurrentPlayerNumber() == 2)) {
+                    board.changePlayer(); // Intentionally change player so that when a new game starts, it will be Player 1's turn first
+                }
+
             }
         }
 
         else if (playerNum == 2) { // For two-player game
-            while (!TicTacToe().checkForWin() && !TicTacToe().isBoardFull()) {
-                TicTacToe().printBoard();
+            while (!board.checkForWin() && !board.isBoardFull()) {
+                board.printBoard();
 
-                cout << "Player " << TicTacToe().getCurrentPlayerNumber() << "'s turn" << endl;
+                cout << "Player " << board.getCurrentPlayerNumber() << "'s turn" << endl;
                 cout << "Please input the coordinates of where you would like to place the mark " << endl;
                 cin >> inputRow >> inputCol;
-                TicTacToe().placeMark(inputRow, inputCol);
+                board.placeMark(inputRow, inputCol);
 
-                TicTacToe().changePlayer(); // Change Turn
+                if (board.checkForWin()) { // If a player wins
+                    cout << "Player " << board.getCurrentPlayerNumber() << " wins!" << endl;
+                    cout << "Play again? (y/n)" << endl;
+                    cin >> playAgain;
+                }
+
+                board.changePlayer(); // Change Turn
+
+                if (board.checkForWin() && (board.getCurrentPlayerNumber() == 2)) {
+                    board.changePlayer(); // Intentionally change player so that when a new game starts, it will be Player 1's turn first
+                }
             }
         }
 
-        if (TicTacToe().isBoardFull()) {
+        if (board.isBoardFull()) { // If the board is filled
             cout << "The board is now full. Nobody wins. And more importantly, everyone loses" << endl;
-            cout << "Play again? (y/n) ";
+            cout << "Play again? (y/n)" << endl;
             cin >> playAgain;
         }
     }
+
+    cout << "Goodbye!" << endl;
+
     return 0;
 }
